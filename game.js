@@ -49,7 +49,9 @@ function move() {
         if (pressed) {
             situation.ready = false;
             situation.start = true;
-            player.velocity.y = -8;
+            if (player.y >= 0) {
+                player.velocity.y = -8;
+            }
         }
         else {
             player.velocity.y += gravity;
@@ -79,6 +81,6 @@ function animation() {
     player.draw();
 }
 
-addEventListener("click", () => {
+window.addEventListener("click", () => {
     pressed = true;
 })
