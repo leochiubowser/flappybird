@@ -11,6 +11,7 @@ var pressed = false;
 var situation = {
     ready: true,
     start: false,
+    end: false
 }
 
 // Create Player
@@ -55,15 +56,15 @@ function move() {
     if (player.y + player.height + player.velocity.y <= ground) {
 
         if (pressed) {
-            situation.ready = false;
             situation.start = true;
             if (player.y >= 0) {
                 player.velocity.y = -8;
             }
         }
-        else {
+        else if (situation.start) {
             player.velocity.y += gravity;
         }
+
         if (situation.start) {
             player.y += player.velocity.y;
         }
@@ -71,6 +72,7 @@ function move() {
     }
     else {
         player.velocity.y = 0;
+        situation.end = true;
     }
 
 }
@@ -88,6 +90,7 @@ var bases = [base1, base2, base3];
 
 
 function drawBackground() {
+
     // Cloud & City
     ctx.drawImage(bg, 0, 0);
     ctx.drawImage(bg, 288, 0);
@@ -95,18 +98,27 @@ function drawBackground() {
     //Base
 
     for (i in bases) {
-        bases[0].x -= bg_speed;
 
-        if (bases[1].x <= 0) {
-            bases[0].x = 0;
+        if (!situation.end) {
+
+            bases[0].x -= bg_speed;
+            if (bases[1].x <= 0) {
+                bases[0].x = 0;
+            }
+
+            if (i > 0) {
+                bases[i].x = bases[i - 1].x + bases[i - 1].width;
+            }
+            ctx.drawImage(bases[i].base, bases[i].x, bases[i].y);
         }
-
-        if (i > 0) {
-            bases[i].x = bases[i - 1].x + bases[i - 1].width;
+        else {
+            if (i > 0) {
+                bases[i].x = bases[i - 1].x + bases[i - 1].width;
+            }
+            ctx.drawImage(bases[i].base, bases[i].x, bases[i].y)
         }
-
-        ctx.drawImage(bases[i].base, bases[i].x, bases[i].y);
     }
+
 }
 
 
