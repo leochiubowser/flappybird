@@ -81,6 +81,6 @@ function animation() {
     player.draw();
 }
 
-window.addEventListener("click", () => {
+document.getElementById("body").addEventListener("click", () => {
     pressed = true;
 })
