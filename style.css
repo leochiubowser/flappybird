@@ -12,8 +12,6 @@ canvas {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 500px;
-    width: 410px;
     margin: auto;
     background-color: rgb(106, 190, 195);
 }
