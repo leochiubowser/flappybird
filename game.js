@@ -3,8 +3,9 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 canvas.height = 500;
 canvas.width = 410;
-const ground = 400;
+const ground = 420;
 const gravity = 0.5;
+const bg_speed = 0.8;
 var pressed = false;
 
 var situation = {
@@ -29,7 +30,15 @@ class Player {
     }
 }
 
-
+class Base {
+    constructor(base, x, y) {
+        this.x = x;
+        this.y = y;
+        this.base = base;
+    }
+    width = 336;
+    height = 112;
+}
 
 
 
@@ -69,7 +78,14 @@ function move() {
 // Draw Background
 
 const bg = document.getElementById("bg");
-const base = document.getElementById("base");
+const base_source = document.getElementById("base");
+
+var base1 = new Base(base_source, 0, 420);
+var base2 = new Base(base_source, base1.x + base1.width, base1.y);
+var base3 = new Base(base_source, base2.x + base2.width, base2.y);
+
+var bases = [base1, base2, base3];
+
 
 function drawBackground() {
     // Cloud & City
@@ -77,8 +93,20 @@ function drawBackground() {
     ctx.drawImage(bg, 288, 0);
 
     //Base
-    ctx.drawImage(base, 0, 400);
-    ctx.drawImage(base, 336, 400);
+
+    for (i in bases) {
+        bases[0].x -= bg_speed;
+
+        if (bases[1].x <= 0) {
+            bases[0].x = 0;
+        }
+
+        if (i > 0) {
+            bases[i].x = bases[i - 1].x + bases[i - 1].width;
+        }
+
+        ctx.drawImage(bases[i].base, bases[i].x, bases[i].y);
+    }
 }
 
 
@@ -88,7 +116,6 @@ animation();
 
 function animation() {
     requestAnimationFrame(animation);
-    console.log(pressed);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     move();
