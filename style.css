@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background-color: #272b30;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 500px;
+    width: 410px;
+    margin: auto;
+    background-color: rgb(106, 190, 195);
+}
+
+div {
+    background-color: rgb(37, 57, 57);
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+}
+
+
+h2 {
+    font-family: "yu gothic ui";
+    font-weight: 500;
+    color: white;
+    position: relative;
+    bottom: 5px;
+}
+
+img {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
