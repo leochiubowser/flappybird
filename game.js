@@ -1,10 +1,9 @@
 //Basic Setting
-
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 canvas.height = 500;
 canvas.width = 410;
-const ground = 450;
+const ground = 400;
 const gravity = 0.5;
 var pressed = false;
 
@@ -67,8 +66,23 @@ function move() {
 
 }
 
+// Draw Background
 
-//Draw
+const bg = document.getElementById("bg");
+const base = document.getElementById("base");
+
+function drawBackground() {
+    // Cloud & City
+    ctx.drawImage(bg, 0, 0);
+    ctx.drawImage(bg, 288, 0);
+
+    //Base
+    ctx.drawImage(base, 0, 400);
+    ctx.drawImage(base, 336, 400);
+}
+
+
+// Draw
 
 animation();
 
@@ -78,9 +92,16 @@ function animation() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     move();
+    drawBackground();
     player.draw();
+
 }
 
 document.getElementById("body").addEventListener("click", () => {
     pressed = true;
+})
+document.getElementById("body").addEventListener("keydown", (e) => {
+    if (e.keyCode = "32") {
+        pressed = true;
+    }
 })
