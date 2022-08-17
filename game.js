@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 canvas.height = 500;
 canvas.width = 410;
 const ground = 420;
-const gravity = 0.5;
+const gravity = 0.3;
 const bg_speed = 0.8;
 var pressed = false;
 
@@ -21,6 +21,7 @@ class Player {
     y = 250;
     height = 25;
     width = 25;
+    gravity = 6;
     velocity = {
         x: 0,
         y: 1
@@ -57,13 +58,13 @@ function move() {
 
         if (pressed) {
             situation.start = true;
-            if (player.y >= 0) {
-                player.velocity.y = -8;
+            if (player.y >= 0 && !situation.end) {
+                player.velocity.y = -player.gravity;
             }
         }
         else if (situation.start) {
             player.velocity.y += gravity;
-        }
+        } 
 
         if (situation.start) {
             player.y += player.velocity.y;
