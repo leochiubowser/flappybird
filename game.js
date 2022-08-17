@@ -37,13 +37,20 @@ class Player {
         x: 0,
         y: 1
     }
-
+    rotate = 0;
     modeling = 0;
     modeling_up = true;
 
     time = 0;
 
     draw() {
+        
+        // Collision
+        // ctx.fillRect(this.x, this.y, this.width, this.height);
+    
+        ctx.save();
+        ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+        ctx.rotate(this.rotate * Math.PI / 180);
 
         if (situation.start && !situation.end) {
             this.time += 1;
@@ -73,16 +80,16 @@ class Player {
 
                     }
             }
-            ctx.drawImage(playerImages[this.modeling], this.x, this.y);
+            ctx.drawImage(playerImages[this.modeling], -this.width / 2, -this.height / 2);
         }
         else if (!situation.start && !situation.end) {
-            ctx.drawImage(playerImages[1], this.x, this.y);
+            ctx.drawImage(playerImages[1], -this.width / 2, -this.height / 2);
         }
         else if (situation.end) {
-            ctx.drawImage(playerImages[this.modeling], this.x, this.y);
-
+            ctx.drawImage(playerImages[this.modeling], -this.width / 2, -this.height / 2);
         }
 
+        ctx.restore();
 
     }
 }
