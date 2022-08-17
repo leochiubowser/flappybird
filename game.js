@@ -137,6 +137,7 @@ function animation() {
 
 }
 
+// Detect pressed space or click the mouse
 document.getElementById("body").addEventListener("click", () => {
     pressed = true;
 })
