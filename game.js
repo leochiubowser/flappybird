@@ -16,21 +16,80 @@ var situation = {
 
 // Create Player
 
+var playerImages_source = ["./image/yellowbird-upflap.png", "./image/yellowbird-midflap.png",
+    "./image/yellowbird-downflap.png"];
+
+var playerImages = [];
+
+for (var i = 0; i < 3; i++) {
+    playerImages[i] = new Image();
+    playerImages[i].src = playerImages_source[i];
+}
+
+
 class Player {
     x = 175;
     y = 250;
     height = 25;
-    width = 25;
+    width = 30;
     gravity = 6;
     velocity = {
         x: 0,
         y: 1
     }
 
+    modeling = 0;
+    modeling_up = true;
+
+    time = 0;
+
     draw() {
-        ctx.fillRect(this.x, this.y, this.height, this.width);
+
+        if (situation.start && !situation.end) {
+            this.time += 1;
+            switch (this.modeling) {
+                case 0:
+                    if (this.time > 10) {
+                        this.time = 0;
+                        this.modeling = 1;
+                        this.modeling_up = true;
+                    }
+                    break;
+                case 1:
+                    if (this.time > 10) {
+                        this.time = 0;
+                        if (this.modeling_up) {
+                            this.modeling = 2;
+                        }
+                        else {
+                            this.modeling = 0;
+                        }
+                    }
+                case 2:
+                    if (this.time > 10) {
+                        this.time = 0;
+                        this.modeling = 1;
+                        this.modeling_up = false;
+
+                    }
+            }
+            ctx.drawImage(playerImages[this.modeling], this.x, this.y);
+        }
+        else if (!situation.start && !situation.end) {
+            ctx.drawImage(playerImages[1], this.x, this.y);
+        }
+        else if (situation.end) {
+            ctx.drawImage(playerImages[this.modeling], this.x, this.y);
+
+        }
+
+
     }
 }
+
+
+
+// Create Base
 
 class Base {
     constructor(base, x, y) {
@@ -64,7 +123,7 @@ function move() {
         }
         else if (situation.start) {
             player.velocity.y += gravity;
-        } 
+        }
 
         if (situation.start) {
             player.y += player.velocity.y;
@@ -81,6 +140,16 @@ function move() {
 // Draw Background
 
 const bg = document.getElementById("bg");
+
+
+function drawBackground() {
+
+    // Cloud & City
+    ctx.drawImage(bg, 0, 0);
+    ctx.drawImage(bg, 288, 0);
+
+}
+
 const base_source = document.getElementById("base");
 
 var base1 = new Base(base_source, 0, 420);
@@ -89,12 +158,7 @@ var base3 = new Base(base_source, base2.x + base2.width, base2.y);
 
 var bases = [base1, base2, base3];
 
-
-function drawBackground() {
-
-    // Cloud & City
-    ctx.drawImage(bg, 0, 0);
-    ctx.drawImage(bg, 288, 0);
+function drawBase() {
 
     //Base
 
@@ -119,7 +183,6 @@ function drawBackground() {
             ctx.drawImage(bases[i].base, bases[i].x, bases[i].y)
         }
     }
-
 }
 
 
@@ -133,6 +196,7 @@ function animation() {
 
     move();
     drawBackground();
+    drawBase();
     player.draw();
 
 }
