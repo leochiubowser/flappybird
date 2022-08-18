@@ -256,6 +256,7 @@ class Pipe {
             this.y = this.pipe_range;
         }
     }
+    addPoint = false;
     height = 320;
     width = 52;
 }
@@ -350,6 +351,12 @@ function collision() {
                 player.y <= pipes[i].y + pipes[i].height && player.y + player.height >= pipes[i].y) {
                 situation.end = true;
             }
+            if (player.x > pipes[i].x + pipes[i].width) {
+                if (pipes[i].addPoint == false) {
+                    score++;
+                    pipes[i].addPoint = true;
+                }
+            }
         }
         else {
             if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
@@ -405,10 +412,17 @@ for (let i = 0; i < 10; i++) {
     score_nums[i].src = score_path[i];
 }
 
+
 function showscore() {
+    // ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 2, canvas.height / 10);
+    // ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 2, canvas.height / 10);
     if (situation.start && !situation.end) {
         if (score < 10) {
             ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 2, canvas.height / 10);
+        }
+        else {
+
+
         }
     }
 }
