@@ -6,12 +6,21 @@ canvas.width = 410;
 const ground = 420;
 const gravity = 0.3;
 const bg_speed = 0.68;
+var touch_ground = false;
+var resetmouse = true;
+var resetSpace  = false;
 var pressed = false;
+
 var situation = {
     ready: true,
     start: false,
     end: false
 };
+
+var input = {
+    x: canvas.width / 2,
+    y: canvas.width / 2,
+}
 
 
 
@@ -168,6 +177,12 @@ function move() {
     else {
         player.velocity.y = 0;
         situation.end = true;
+        touch_ground = true;
+        if (resetmouse) {
+            input.x = 0;
+            input.y = 0;
+            resetmouse = false;
+        }
         player.draw();
     }
 
@@ -346,8 +361,36 @@ function collision() {
 
 }
 
+// End & Restart
 
 
+var reStartImage = new Image();
+reStartImage.src = "./image/gameover.png";
+var scoreImage = new Image();
+scoreImage.src = "./image/score.png";
+var RestartButton = new Image();
+RestartButton.src = "./image/restart.png";
+function reStart() {
+    const resbun = {
+        x: 157,
+        y: 351,
+        width: 214 / 2,
+        height: 75 / 2,
+    }
+
+
+    if (situation.end && touch_ground) {
+        ctx.drawImage(reStartImage, canvas.width / 2 - reStartImage.width / 2, canvas.height / 2 - 150);
+        ctx.drawImage(scoreImage, canvas.width / 2 - scoreImage.width / 3, canvas.height / 2 - scoreImage.height / 3,
+            scoreImage.width / 1.5, scoreImage.height / 1.5);
+        ctx.drawImage(RestartButton, canvas.width / 2 - reStartImage.width / 4, canvas.height / 2 - RestartButton.height / 4 + 120,
+            RestartButton.width / 2, RestartButton.height / 2);
+        if (input.x >= resbun.x && input.x <= resbun.x + resbun.width &&
+            input.y >= resbun.y && input.y <= resbun.y + resbun.height || resetSpace) {
+            init();
+        }
+    }
+}
 
 
 //initlization game
@@ -371,6 +414,9 @@ function init() {
     player.rotate = 0;
     pipes = [];
     pipeSetting.pipeX = 1000;
+    touch_ground = false;
+    resetmouse = true;
+    resetSpace = false;
     createPipe(0);
 }
 
@@ -386,18 +432,19 @@ function animation() {
     drawBase();
     move();
     collision();
-
-    if (situation.end) {
-        // init();
-    }
-
+    reStart();
 }
 
 // Detect pressed space or click the mouse
-document.querySelector("body").addEventListener("click", () => {
+document.querySelector("body").addEventListener("click", (e) => {
+    input.x = e.offsetX;
+    input.y = e.offsetY;
     pressed = true;
 })
 document.querySelector("body").addEventListener("keydown", () => {
     pressed = true;
+    if (touch_ground){
+        resetSpace = true;
+    }
 })
 
