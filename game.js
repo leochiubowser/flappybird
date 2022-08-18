@@ -268,3 +268,4 @@ document.getElementById("body").addEventListener("keydown", (e) => {
     }
 })
 
+// Bowser
