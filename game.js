@@ -252,11 +252,6 @@ var pipe_range;
 pipe_range = Math.random() * (pipeSetting.less - pipeSetting.big) + pipeSetting.big;
 
 function drawPipe() {
-    // City 388  base 112
-    // 388 -120 = 268
-    // 370 最低
-    // 150 最高
-    // 370 -150 = 220
 
     for (var i = 0; i < 4; i++) {
         if (i == 0) {
@@ -286,15 +281,7 @@ function drawPipe() {
             ctx.restore();
         }
     }
-
-
-    // ctx.drawImage(pipe_source , pipe.x , pipe.y);
 }
-
-
-
-
-
 
 //initlization game
 
