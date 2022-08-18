@@ -7,12 +7,13 @@ const ground = 420;
 const gravity = 0.3;
 const bg_speed = 0.8;
 var pressed = false;
-
 var situation = {
     ready: true,
     start: false,
     end: false
-}
+};
+
+
 
 // Create Player
 
@@ -41,7 +42,7 @@ class Player {
     modeling = 0;
     modeling_up = true;
     rotateSetting = {
-        up : 45,
+        up: 45,
         speed: 2,
         fall: 90
     }
@@ -54,7 +55,6 @@ class Player {
         // ctx.fillRect(this.x, this.y, this.width, this.height);
 
         ctx.save();
-
         if (situation.start && !situation.end) {
             if (pressed) {
                 this.rotate = -this.rotateSetting.up;
@@ -210,6 +210,27 @@ function drawBase() {
     }
 }
 
+//initlization game
+
+function init() {
+    situation = {
+        ready: true,
+        start: false,
+        end: false
+    }
+    player.x = 175;
+    player.y = 250;
+    
+    player.velocity = {
+        x: 0,
+        y: 1
+    }
+    player.rotate = 0;
+    player.modeling = 0;
+    player.modeling_up = true;
+    player.time = 0;
+}
+
 
 // Draw
 
@@ -223,6 +244,10 @@ function animation() {
     drawBase();
     move();
 
+    if (situation.end) {
+        init();
+    }
+
 }
 
 // Detect pressed space or click the mouse
@@ -234,3 +259,4 @@ document.getElementById("body").addEventListener("keydown", (e) => {
         pressed = true;
     }
 })
+
