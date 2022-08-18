@@ -1,5 +1,7 @@
 body {
     user-select: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
     margin: 0;
     overflow: hidden;
     display: flex;
