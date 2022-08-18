@@ -236,16 +236,24 @@ class Pipe {
 }
 
 var pipes = [];
-const pipesInterval = 220;
+const pipesInterval = 210;
 
 function drawPipe() {
 
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
         if (i == 0) {
+            // The first pipe
             pipes[i] = new Pipe(10, 300, false);
         }
         else {
-            pipes[i] = new Pipe(pipes[i - 1].x + pipesInterval, 250, false);
+            if (i % 2 == 0) {
+                // 2 ,4 ,6, 8, 10
+                pipes[i] = new Pipe(pipes[i - 1].x + pipesInterval, 250, false);
+            }
+            else {
+                // 1, 3, 5, 7 ,9
+                pipes[i] = new Pipe(pipes[i - 1].x , 100, true);
+            }
         }
     }
 
@@ -254,9 +262,13 @@ function drawPipe() {
             ctx.drawImage(pipe_source, pipes[i].x, pipes[i].y)
         }
         else {
-
+            ctx.save();
+            ctx.scale(1, -1);
+            ctx.drawImage(pipe_source, pipes[i].x, -pipes[i].y);
+            ctx.restore();
         }
     }
+
 
     // ctx.drawImage(pipe_source , pipe.x , pipe.y);
 }
