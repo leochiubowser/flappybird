@@ -229,7 +229,7 @@ class Pipe {
     constructor(x, flipY, i) {
         this.flipY = flipY;
         this.x = x;
-        this.pipe_range = Math.round(Math.random()) * (pipeSetting.less - pipeSetting.big) + pipeSetting.big;
+        this.pipe_range = Math.round(Math.random() * (pipeSetting.less - pipeSetting.big) + pipeSetting.big);
         if (flipY) {
             this.y = pipes[i - 1].pipe_range - pipeSetting.pipe_interval;
         }
@@ -250,7 +250,7 @@ const pipeSetting = {
     big: 150,
     randomRange: 220,
     pipe_interval: 120,
-    pipeX: 410,
+    pipeX: canvas.width * 2,
     pipeSpeed: 2,
 
 }
@@ -258,7 +258,7 @@ const pipeSetting = {
 const pipesInterval = 210;
 
 function createPipe() {
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 100; i++) {
         if (i == 0) {
             // The first pipe
             pipes[i] = new Pipe(pipeSetting.pipeX, false, i);
@@ -279,8 +279,9 @@ function createPipe() {
 createPipe();
 
 function drawPipe() {
-
-    pipeSetting.pipeX -= pipeSetting.pipeSpeed;
+    if (situation.start && !situation.end) {
+        pipeSetting.pipeX -= pipeSetting.pipeSpeed;
+    }
 
     for (let i in pipes) {
         if (i == 0) {
