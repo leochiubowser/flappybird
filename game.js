@@ -226,10 +226,11 @@ var pipe_source = new Image();
 pipe_source.src = "./image/pipe-green.png";
 
 class Pipe {
-    constructor(x, y, flipY) {
+    constructor(x, y, flipY, pipe_range) {
         this.flipY = flipY;
         this.x = x;
         this.y = y;
+        this.pipe_range = pipe_range;
     }
     height = 320;
     width = 52;
@@ -242,7 +243,10 @@ const pipeSetting = {
     less: 370,
     big: 150,
     randomRange: 220,
-    pipe_interval: 120
+    pipe_interval: 120,
+    pipeX: 410,
+    pipeSpeed: 2,
+
 }
 
 const pipesInterval = 210;
@@ -251,12 +255,12 @@ var pipe_range;
 
 pipe_range = Math.random() * (pipeSetting.less - pipeSetting.big) + pipeSetting.big;
 
-function drawPipe() {
 
-    for (var i = 0; i < 4; i++) {
+function createPipe() {
+    for (var i = 0; i < 8; i++) {
         if (i == 0) {
             // The first pipe
-            pipes[i] = new Pipe(10, pipe_range, false);
+            pipes[i] = new Pipe(pipeSetting.pipeX, pipe_range, false);
         }
         else {
             if (i % 2 == 0) {
@@ -269,6 +273,12 @@ function drawPipe() {
             }
         }
     }
+}
+
+function drawPipe() {
+
+    createPipe();
+    pipeSetting.pipeX -= pipeSetting.pipeSpeed;
 
     for (var i = 0; i < pipes.length; i++) {
         if (pipes[i].flipY == false) {
