@@ -425,8 +425,9 @@ for (let i = 0; i < 10; i++) {
     score_nums[i].src = score_path[i];
 }
 
-var ten;
-var one;
+
+
+
 
 function showscore() {
     if (situation.start && !situation.end) {
@@ -434,10 +435,10 @@ function showscore() {
             ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 2, canvas.height / 10);
         }
         else {
-            ten = score.toString();
+            var ten = score.toString();
             ten = ten.substring(0, 1);
             ten = parseInt(ten);
-            one = score.toString();
+            var one = score.toString();
             one = one.substring(1);
             one = parseInt(one);
             ctx.drawImage(score_nums[ten], canvas.width / 2 - score_nums[ten].width / 2 - 13, canvas.height / 10);
@@ -446,6 +447,7 @@ function showscore() {
         }
     }
     else if (situation.end) {
+        //end score
         if (score < 10) {
             ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 3, canvas.height / 2 - 30,
                 score_nums[score].width / 1.5, score_nums[score].height / 1.5);
@@ -457,9 +459,42 @@ function showscore() {
             one = score.toString();
             one = one.substring(1);
             one = parseInt(one);
-            ctx.drawImage(score_nums[ten], canvas.width / 2 - score_nums[ten].width / 3 -10, canvas.height / 2 - 30,
+            ctx.drawImage(score_nums[ten], canvas.width / 2 - score_nums[ten].width / 3 - 10, canvas.height / 2 - 30,
                 score_nums[ten].width / 1.5, score_nums[ten].height / 1.5);
-            ctx.drawImage(score_nums[one], canvas.width / 2 - score_nums[one].width / 3 + 10, canvas.height / 2 -30,
+            ctx.drawImage(score_nums[one], canvas.width / 2 - score_nums[one].width / 3 + 10, canvas.height / 2 - 30,
+                score_nums[one].width / 1.5, score_nums[one].height / 1.5);
+        }
+
+        //best score
+        var bestScore = localStorage.getItem("bestscore");
+        if (bestScore == null || bestScore == NaN) {
+            localStorage.setItem("bestscore", score.toString());
+            bestScore = score;
+        }
+        else if (score > bestScore) {
+            bestScore = parseInt(bestScore);
+            bestScore = score;
+            localStorage.setItem("bestscore", bestScore);
+        }
+        else if (score <= bestScore) {
+            bestScore = parseInt(bestScore);
+        }
+
+
+        if (bestScore < 10) {
+            ctx.drawImage(score_nums[bestScore], canvas.width / 2 - score_nums[bestScore].width / 3, canvas.height / 2 + 30,
+                score_nums[bestScore].width / 1.5, score_nums[bestScore].height / 1.5);
+        }
+        else {
+            ten = bestScore.toString();
+            ten = ten.substring(0, 1);
+            ten = parseInt(ten);
+            one = bestScore.toString();
+            one = one.substring(1);
+            one = parseInt(one);
+            ctx.drawImage(score_nums[ten], canvas.width / 2 - score_nums[ten].width / 3 - 10, canvas.height / 2 + 30,
+                score_nums[ten].width / 1.5, score_nums[ten].height / 1.5);
+            ctx.drawImage(score_nums[one], canvas.width / 2 - score_nums[one].width / 3 + 10, canvas.height / 2 + 30,
                 score_nums[one].width / 1.5, score_nums[one].height / 1.5);
         }
     }
