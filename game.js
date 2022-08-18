@@ -255,7 +255,7 @@ var pipeSetting = {
     pipe_interval: 120,
     pipeX: 1000,
     pipeSpeed: 2,
-    pipe_add: 200
+    pipe_add: 100
 
 }
 
