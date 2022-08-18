@@ -64,7 +64,7 @@ class Player {
                 this.rotateSetting.time = 0;
             }
             else {
-                if (this.rotate <  this.rotateSetting.fall) {
+                if (this.rotate < this.rotateSetting.fall) {
                     if (this.rotateSetting.time > 25) {
                         this.rotate += this.rotateSetting.speed;
                     }
@@ -172,7 +172,8 @@ function move() {
 
 // Draw Background
 
-const bg = document.getElementById("bg");
+const bg = new Image();
+bg.src = "./image/background-day.png";
 
 
 function drawBackground() {
@@ -183,7 +184,8 @@ function drawBackground() {
 
 }
 
-const base_source = document.getElementById("base");
+const base_source = new Image();
+base_source.src = "./image/base.png";
 
 var base1 = new Base(base_source, 0, 420);
 var base2 = new Base(base_source, base1.x + base1.width, base1.y);
@@ -259,12 +261,10 @@ function animation() {
 }
 
 // Detect pressed space or click the mouse
-document.getElementById("body").addEventListener("click", () => {
+document.querySelector("body").addEventListener("click", () => {
     pressed = true;
 })
-document.getElementById("body").addEventListener("keydown", (e) => {
-    if (e.keyCode = "32") {
-        pressed = true;
-    }
+document.querySelector("body").addEventListener("keydown", () => {
+    pressed = true;
 })
 
