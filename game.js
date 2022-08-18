@@ -261,7 +261,7 @@ function animation() {
 }
 
 // Detect pressed space or click the mouse
-window.addEventListener("click", () => {
+document.querySelector("body").addEventListener("click", () => {
     pressed = true;
 })
 document.querySelector("body").addEventListener("keydown", () => {
