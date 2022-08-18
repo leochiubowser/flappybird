@@ -10,6 +10,7 @@ var touch_ground = false;
 var resetmouse = true;
 var resetSpace = false;
 var pressed = false;
+var passDelay = 0;
 var score = 0;
 
 var situation = {
@@ -68,6 +69,12 @@ class Player {
 
         ctx.save();
 
+        if (score >= 50) {
+            passDelay += 1;
+            if (passDelay < 60 * 3) {
+                player.velocity.y = -player.gravity;
+            }
+        }
 
         if (pressed) {
             if (situation.start && !situation.end) {
@@ -162,7 +169,9 @@ function move() {
         if (pressed) {
             situation.start = true;
             if (player.y >= 0 && !situation.end) {
-                player.velocity.y = -player.gravity;
+                if (score < 50) {
+                    player.velocity.y = -player.gravity;
+                }
             }
         }
         else if (situation.start) {
@@ -347,21 +356,25 @@ function collision() {
 
     for (i in pipes) {
         if (!pipes[i].flipY) {
-            if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
-                player.y <= pipes[i].y + pipes[i].height && player.y + player.height >= pipes[i].y) {
-                situation.end = true;
-            }
-            if (player.x > pipes[i].x + pipes[i].width) {
+            if (player.x > pipes[i].x) {
                 if (pipes[i].addPoint == false) {
                     score++;
                     pipes[i].addPoint = true;
+                }
+            }
+            if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
+                player.y <= pipes[i].y + pipes[i].height && player.y + player.height >= pipes[i].y) {
+                if (score != 50) {
+                    // situation.end = true;
                 }
             }
         }
         else {
             if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
                 player.y <= pipes[i].y) {
-                situation.end = true;
+                if (score != 50) {
+                    // situation.end = true;
+                }
             }
         }
     }
@@ -412,17 +425,42 @@ for (let i = 0; i < 10; i++) {
     score_nums[i].src = score_path[i];
 }
 
+var ten;
+var one;
 
 function showscore() {
-    // ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 2, canvas.height / 10);
-    // ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 2, canvas.height / 10);
     if (situation.start && !situation.end) {
         if (score < 10) {
             ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 2, canvas.height / 10);
         }
         else {
+            ten = score.toString();
+            ten = ten.substring(0, 1);
+            ten = parseInt(ten);
+            one = score.toString();
+            one = one.substring(1);
+            one = parseInt(one);
+            ctx.drawImage(score_nums[ten], canvas.width / 2 - score_nums[ten].width / 2 - 13, canvas.height / 10);
+            ctx.drawImage(score_nums[one], canvas.width / 2 - score_nums[one].width / 2 + 13, canvas.height / 10);
 
-
+        }
+    }
+    else if (situation.end) {
+        if (score < 10) {
+            ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 3, canvas.height / 2 - 30,
+                score_nums[score].width / 1.5, score_nums[score].height / 1.5);
+        }
+        else {
+            ten = score.toString();
+            ten = ten.substring(0, 1);
+            ten = parseInt(ten);
+            one = score.toString();
+            one = one.substring(1);
+            one = parseInt(one);
+            ctx.drawImage(score_nums[ten], canvas.width / 2 - score_nums[ten].width / 3 -10, canvas.height / 2 - 30,
+                score_nums[ten].width / 1.5, score_nums[ten].height / 1.5);
+            ctx.drawImage(score_nums[one], canvas.width / 2 - score_nums[one].width / 3 + 10, canvas.height / 2 -30,
+                score_nums[one].width / 1.5, score_nums[one].height / 1.5);
         }
     }
 }
@@ -452,6 +490,8 @@ function init() {
     resetmouse = true;
     resetSpace = false;
     score = 0;
+    passDelay = 0;
+
     createPipe(0);
 }
 
@@ -466,9 +506,9 @@ function animation() {
     drawPipe();
     drawBase();
     move();
-    showscore();
     collision();
     reStart();
+    showscore();
 }
 
 // Detect pressed space or click the mouse
