@@ -42,9 +42,10 @@ class Player {
     modeling = 0;
     modeling_up = true;
     rotateSetting = {
-        up: 45,
-        speed: 2,
-        fall: 90
+        up: 30,
+        speed: 4,
+        fall: 90,
+        time: 0
     }
 
     time = 0;
@@ -53,15 +54,22 @@ class Player {
 
         // Collision
         // ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.rotateSetting.time += 1;
 
         ctx.save();
+
         if (situation.start && !situation.end) {
             if (pressed) {
                 this.rotate = -this.rotateSetting.up;
+                this.rotateSetting.time = 0;
             }
             else {
-                if (this.rotate <= this.rotateSetting.fall)
-                    this.rotate += this.rotateSetting.speed;
+                if (this.rotate <  this.rotateSetting.fall) {
+                    if (this.rotateSetting.time > 25) {
+                        this.rotate += this.rotateSetting.speed;
+                    }
+                }
+
             }
         }
 
@@ -220,7 +228,7 @@ function init() {
     }
     player.x = 175;
     player.y = 250;
-    
+
     player.velocity = {
         x: 0,
         y: 1
@@ -245,7 +253,7 @@ function animation() {
     move();
 
     if (situation.end) {
-        init();
+        // init();
     }
 
 }
