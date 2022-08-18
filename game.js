@@ -220,6 +220,52 @@ function drawBase() {
     }
 }
 
+// Pipe
+
+var pipe_source = new Image();
+pipe_source.src = "./image/pipe-green.png";
+
+class Pipe {
+    constructor(x, y, flipY) {
+        this.flipY = flipY;
+        this.x = x;
+        this.y = y;
+    }
+    height = 320;
+    width = 52;
+}
+
+var pipes = [];
+const pipesInterval = 220;
+
+function drawPipe() {
+
+    for (var i = 0; i < 3; i++) {
+        if (i == 0) {
+            pipes[i] = new Pipe(10, 300, false);
+        }
+        else {
+            pipes[i] = new Pipe(pipes[i - 1].x + pipesInterval, 250, false);
+        }
+    }
+
+    for (var i = 0; i < pipes.length; i++) {
+        if (pipes[i].flipY == false) {
+            ctx.drawImage(pipe_source, pipes[i].x, pipes[i].y)
+        }
+        else {
+
+        }
+    }
+
+    // ctx.drawImage(pipe_source , pipe.x , pipe.y);
+}
+
+
+
+
+
+
 //initlization game
 
 function init() {
@@ -235,10 +281,10 @@ function init() {
         x: 0,
         y: 1
     }
-    player.rotate = 0;
     player.modeling = 0;
     player.modeling_up = true;
     player.time = 0;
+    player.rotate = 0;
 }
 
 
@@ -251,6 +297,7 @@ function animation() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawBackground();
+    drawPipe();
     drawBase();
     move();
 
