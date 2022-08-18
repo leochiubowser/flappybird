@@ -1,5 +1,5 @@
 body {
-    user-select: none;
+    user-select: none; /* Chrome, Edge, Opera and Firefox */
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     margin: 0;
