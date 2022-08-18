@@ -5,7 +5,7 @@ canvas.height = 500;
 canvas.width = 410;
 const ground = 420;
 const gravity = 0.3;
-const bg_speed = 0.8;
+const bg_speed = 0.68;
 var pressed = false;
 var situation = {
     ready: true,
@@ -202,7 +202,7 @@ function drawBase() {
         if (!situation.end) {
 
             bases[0].x -= bg_speed;
-            if (bases[1].x <= 0) {
+            if (bases[1].x - bg_speed <= 0) {
                 bases[0].x = 0;
             }
 
@@ -226,17 +226,23 @@ var pipe_source = new Image();
 pipe_source.src = "./image/pipe-green.png";
 
 class Pipe {
-    constructor(x, y, flipY, pipe_range) {
+    constructor(x, flipY, i) {
         this.flipY = flipY;
         this.x = x;
-        this.y = y;
-        this.pipe_range = pipe_range;
+        this.pipe_range = Math.round(Math.random()) * (pipeSetting.less - pipeSetting.big) + pipeSetting.big;
+        if (flipY) {
+            this.y = pipes[i - 1].pipe_range - pipeSetting.pipe_interval;
+        }
+        else {
+            this.y = this.pipe_range;
+        }
     }
     height = 320;
     width = 52;
 }
 
 var pipes = [];
+
 const pipeSetting = {
     city: 388,
     base: 112,
@@ -250,35 +256,49 @@ const pipeSetting = {
 }
 
 const pipesInterval = 210;
-var pipe_range;
-
-
-pipe_range = Math.random() * (pipeSetting.less - pipeSetting.big) + pipeSetting.big;
-
 
 function createPipe() {
     for (var i = 0; i < 8; i++) {
         if (i == 0) {
             // The first pipe
-            pipes[i] = new Pipe(pipeSetting.pipeX, pipe_range, false);
+            pipes[i] = new Pipe(pipeSetting.pipeX, false, i);
         }
         else {
             if (i % 2 == 0) {
                 // 2 ,4 ,6, 8, 10
-                pipes[i] = new Pipe(pipes[i - 1].x + pipesInterval, pipe_range, false);
+                pipes[i] = new Pipe(pipes[i - 1].x + pipesInterval, false, i);
             }
             else {
                 // 1, 3, 5, 7 ,9
-                pipes[i] = new Pipe(pipes[i - 1].x, pipe_range - pipeSetting.pipe_interval, true);
+                pipes[i] = new Pipe(pipes[i - 1].x, true, i);
             }
         }
     }
 }
 
+createPipe();
+
 function drawPipe() {
 
-    createPipe();
     pipeSetting.pipeX -= pipeSetting.pipeSpeed;
+
+    for (let i in pipes) {
+        if (i == 0) {
+            // The first pipe
+            pipes[i].x = pipeSetting.pipeX;
+        }
+        else {
+            if (i % 2 == 0) {
+                // 2 ,4 ,6, 8, 10
+                pipes[i].x = pipes[i - 1].x + pipesInterval;
+            }
+            else {
+                // 1, 3, 5, 7 ,9
+                pipes[i].x = pipes[i - 1].x;
+            }
+        }
+    }
+
 
     for (var i = 0; i < pipes.length; i++) {
         if (pipes[i].flipY == false) {
@@ -312,6 +332,7 @@ function init() {
     player.modeling_up = true;
     player.time = 0;
     player.rotate = 0;
+    createPipe();
 }
 
 
