@@ -8,7 +8,7 @@ const gravity = 0.3;
 const bg_speed = 0.68;
 var touch_ground = false;
 var resetmouse = true;
-var resetSpace  = false;
+var resetSpace = false;
 var pressed = false;
 
 var situation = {
@@ -372,7 +372,7 @@ var RestartButton = new Image();
 RestartButton.src = "./image/restart.png";
 function reStart() {
     const resbun = {
-        x: 157,
+        x: 152,
         y: 351,
         width: 214 / 2,
         height: 75 / 2,
@@ -383,7 +383,7 @@ function reStart() {
         ctx.drawImage(reStartImage, canvas.width / 2 - reStartImage.width / 2, canvas.height / 2 - 150);
         ctx.drawImage(scoreImage, canvas.width / 2 - scoreImage.width / 3, canvas.height / 2 - scoreImage.height / 3,
             scoreImage.width / 1.5, scoreImage.height / 1.5);
-        ctx.drawImage(RestartButton, canvas.width / 2 - reStartImage.width / 4, canvas.height / 2 - RestartButton.height / 4 + 120,
+        ctx.drawImage(RestartButton, canvas.width / 2 - reStartImage.width / 4 - 5, canvas.height / 2 - RestartButton.height / 4 + 120,
             RestartButton.width / 2, RestartButton.height / 2);
         if (input.x >= resbun.x && input.x <= resbun.x + resbun.width &&
             input.y >= resbun.y && input.y <= resbun.y + resbun.height || resetSpace) {
@@ -443,7 +443,7 @@ document.querySelector("body").addEventListener("click", (e) => {
 })
 document.querySelector("body").addEventListener("keydown", () => {
     pressed = true;
-    if (touch_ground){
+    if (touch_ground) {
         resetSpace = true;
     }
 })
