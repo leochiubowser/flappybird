@@ -236,23 +236,41 @@ class Pipe {
 }
 
 var pipes = [];
+const pipeSetting = {
+    city: 388,
+    base: 112,
+    less: 370,
+    big: 150,
+    randomRange: 220,
+    pipe_interval: 120
+}
+
 const pipesInterval = 210;
+var pipe_range;
+
+
+pipe_range = Math.random() * (pipeSetting.less - pipeSetting.big) + pipeSetting.big;
 
 function drawPipe() {
+    // City 388  base 112
+    // 388 -120 = 268
+    // 370 最低
+    // 150 最高
+    // 370 -150 = 220
 
     for (var i = 0; i < 4; i++) {
         if (i == 0) {
             // The first pipe
-            pipes[i] = new Pipe(10, 300, false);
+            pipes[i] = new Pipe(10, pipe_range, false);
         }
         else {
             if (i % 2 == 0) {
                 // 2 ,4 ,6, 8, 10
-                pipes[i] = new Pipe(pipes[i - 1].x + pipesInterval, 250, false);
+                pipes[i] = new Pipe(pipes[i - 1].x + pipesInterval, pipe_range, false);
             }
             else {
                 // 1, 3, 5, 7 ,9
-                pipes[i] = new Pipe(pipes[i - 1].x , 100, true);
+                pipes[i] = new Pipe(pipes[i - 1].x, pipe_range - pipeSetting.pipe_interval, true);
             }
         }
     }
