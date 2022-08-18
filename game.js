@@ -58,20 +58,23 @@ class Player {
 
         ctx.save();
 
-        if (situation.start && !situation.end) {
-            if (pressed) {
+
+        if (pressed) {
+            if (situation.start && !situation.end) {
                 this.rotate = -this.rotateSetting.up;
                 this.rotateSetting.time = 0;
             }
-            else {
+        }
+        else {
+            if (situation.start) {
                 if (this.rotate < this.rotateSetting.fall) {
                     if (this.rotateSetting.time > 25) {
                         this.rotate += this.rotateSetting.speed;
                     }
                 }
-
             }
         }
+
 
         ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
         ctx.rotate(this.rotate * Math.PI / 180);
@@ -320,6 +323,33 @@ function drawPipe() {
     }
 }
 
+
+// Collision
+
+function collision() {
+
+    for (i in pipes) {
+        if (!pipes[i].flipY) {
+            if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
+                player.y <= pipes[i].y + pipes[i].height && player.y + player.height >= pipes[i].y) {
+                situation.end = true;
+            }
+        }
+        else {
+            if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
+                player.y <= pipes[i].y) {
+                situation.end = true;
+            }
+        }
+    }
+
+
+}
+
+
+
+
+
 //initlization game
 
 function init() {
@@ -355,9 +385,10 @@ function animation() {
     drawPipe();
     drawBase();
     move();
+    collision();
 
     if (situation.end) {
-        init();
+        // init();
     }
 
 }
