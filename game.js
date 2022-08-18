@@ -10,6 +10,7 @@ var touch_ground = false;
 var resetmouse = true;
 var resetSpace = false;
 var pressed = false;
+var score = 0;
 
 var situation = {
     ready: true,
@@ -38,7 +39,7 @@ for (var i = 0; i < 3; i++) {
 
 
 class Player {
-    x = 175;
+    x = 160;
     y = 250;
     height = 25;
     width = 30;
@@ -393,6 +394,25 @@ function reStart() {
 }
 
 
+// Show Score 
+
+const score_path = ["./image/0.png", "./image/1.png", "./image/2.png", "./image/3.png", "./image/4.png"
+    , "./image/5.png", "./image/6.png", "./image/7.png", "./image/8.png", "./image/9.png"];
+var score_nums = [];
+
+for (let i = 0; i < 10; i++) {
+    score_nums[i] = new Image();
+    score_nums[i].src = score_path[i];
+}
+
+function showscore() {
+    if (situation.start && !situation.end) {
+        if (score < 10) {
+            ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 2, canvas.height / 10);
+        }
+    }
+}
+
 //initlization game
 
 function init() {
@@ -417,6 +437,7 @@ function init() {
     touch_ground = false;
     resetmouse = true;
     resetSpace = false;
+    score = 0;
     createPipe(0);
 }
 
@@ -431,6 +452,7 @@ function animation() {
     drawPipe();
     drawBase();
     move();
+    showscore();
     collision();
     reStart();
 }
