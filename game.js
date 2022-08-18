@@ -243,22 +243,23 @@ class Pipe {
 
 var pipes = [];
 
-const pipeSetting = {
+var pipeSetting = {
     city: 388,
     base: 112,
     less: 370,
     big: 150,
     randomRange: 220,
     pipe_interval: 120,
-    pipeX: canvas.width * 2,
+    pipeX: 1000,
     pipeSpeed: 2,
+    pipe_add: 200
 
 }
 
 const pipesInterval = 210;
 
-function createPipe() {
-    for (var i = 0; i < 100; i++) {
+function createPipe(r) {
+    for (var i = r; i < r + pipeSetting.pipe_add; i++) {
         if (i == 0) {
             // The first pipe
             pipes[i] = new Pipe(pipeSetting.pipeX, false, i);
@@ -276,9 +277,14 @@ function createPipe() {
     }
 }
 
-createPipe();
+
+
+createPipe(0);
+
 
 function drawPipe() {
+
+
     if (situation.start && !situation.end) {
         pipeSetting.pipeX -= pipeSetting.pipeSpeed;
     }
@@ -333,11 +339,11 @@ function init() {
     player.modeling_up = true;
     player.time = 0;
     player.rotate = 0;
-    createPipe();
+    pipes = [];
+    pipeSetting.pipeX = 1000;
+    createPipe(0);
 }
 
-
-// Draw
 
 animation();
 
@@ -351,7 +357,7 @@ function animation() {
     move();
 
     if (situation.end) {
-        // init();
+        init();
     }
 
 }
