@@ -12,6 +12,8 @@ var resetSpace = false;
 var pressed = false;
 var passDelay = 0;
 var score = 0;
+var ouchSound = true;
+var dieSound = true;
 
 var situation = {
     ready: true,
@@ -34,9 +36,10 @@ var ouch = new Audio();
 ouch.src = "./audio/hit.wav";
 
 var fly = new Audio();
-fly.src = "./audio/swoosh.wav";
+fly.src = "./audio/wing.wav";
 
-
+var die = new Audio();
+die.src = "./audio/die.wav";
 
 
 // Create Player
@@ -201,6 +204,12 @@ function move() {
         player.velocity.y = 0;
         situation.end = true;
         touch_ground = true;
+
+        if (ouchSound) {
+            ouch.play();
+            ouchSound = false;
+        }
+
         if (resetmouse) {
             input.x = 0;
             input.y = 0;
@@ -377,6 +386,7 @@ function collision() {
                 if (player.x > pipes[i].x) {
                     if (pipes[i].addPoint == false) {
                         score++;
+                        point.play();
                         pipes[i].addPoint = true;
                     }
                 }
@@ -384,6 +394,14 @@ function collision() {
                     player.y <= pipes[i].y + pipes[i].height && player.y + player.height >= pipes[i].y) {
                     if (score != 50) {
                         situation.end = true;
+                        if (ouchSound) {
+                            ouch.play();
+                            ouchSound = false;
+                        }
+                        if (dieSound) {
+                            die.play();
+                            dieSound = false;
+                        }
                     }
                 }
             }
@@ -392,6 +410,14 @@ function collision() {
                     player.y <= pipes[i].y) {
                     if (score != 50) {
                         situation.end = true;
+                        if (ouchSound) {
+                            ouch.play();
+                            ouchSound = false;
+                        }
+                        if (dieSound) {
+                            die.play();
+                            dieSound = false;
+                        }
                     }
                 }
             }
@@ -430,6 +456,7 @@ function reStart() {
             init();
         }
     }
+
 }
 
 
@@ -545,6 +572,8 @@ function init() {
     resetSpace = false;
     score = 0;
     passDelay = 0;
+    ouchSound = true;
+    dieSound = true;
 
     createPipe(0);
 }
@@ -570,9 +599,13 @@ document.querySelector("body").addEventListener("click", (e) => {
     input.x = e.offsetX;
     input.y = e.offsetY;
     pressed = true;
+    if (situation.start)
+        fly.play();
 })
 document.querySelector("body").addEventListener("keydown", () => {
     pressed = true;
+    if (situation.start)
+        fly.play();
     if (touch_ground) {
         resetSpace = true;
     }
