@@ -28,21 +28,6 @@ var input = {
 }
 
 
-//Audio
-
-var point = new Audio();
-point.src = "./audio/point.wav";
-
-var ouch = new Audio();
-ouch.src = "./audio/hit.wav";
-
-var fly = new Audio();
-fly.src = "./audio/wing.wav";
-
-var die = new Audio();
-die.src = "./audio/die.wav";
-
-
 // Create Player
 
 var playerImages_source = ["./image/yellowbird-upflap.png", "./image/yellowbird-midflap.png",
@@ -530,6 +515,19 @@ function showscore() {
 
 //Auido 
 
+
+var point = new Audio();
+point.src = "./audio/point.wav";
+
+var ouch = new Audio();
+ouch.src = "./audio/hit.wav";
+
+var fly = new Audio();
+fly.src = "./audio/wing.wav";
+
+var die = new Audio();
+die.src = "./audio/die.wav";
+
 var originScore = 0;
 
 function playAudio() {
@@ -548,6 +546,7 @@ function playAudio() {
         point.play();
         originScore = score;
     }
+    fly.play();
 }
 
 //initlization game
@@ -588,9 +587,9 @@ animation();
 
 function animation() {
     requestAnimationFrame(animation);
-    playAudio();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    playAudio();
     drawBackground();
     drawPipe();
     drawBase();
