@@ -596,11 +596,11 @@ function animation() {
 
 // Detect pressed space or click the mouse
 document.querySelector("body").addEventListener("click", (e) => {
+    if (situation.start)
+        fly.play();
     input.x = e.offsetX;
     input.y = e.offsetY;
     pressed = true;
-    if (situation.start)
-        fly.play();
 })
 document.querySelector("body").addEventListener("keydown", () => {
     pressed = true;
