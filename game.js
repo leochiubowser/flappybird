@@ -13,6 +13,7 @@ var pressed = false;
 var passDelay = 0;
 var score = 0;
 var ouchSound = true;
+var playdiesound = false;
 var dieSound = true;
 
 var situation = {
@@ -205,11 +206,6 @@ function move() {
         situation.end = true;
         touch_ground = true;
 
-        if (ouchSound) {
-            ouch.play();
-            ouchSound = false;
-        }
-
         if (resetmouse) {
             input.x = 0;
             input.y = 0;
@@ -386,7 +382,6 @@ function collision() {
                 if (player.x > pipes[i].x) {
                     if (pipes[i].addPoint == false) {
                         score++;
-                        point.play();
                         pipes[i].addPoint = true;
                     }
                 }
@@ -394,14 +389,7 @@ function collision() {
                     player.y <= pipes[i].y + pipes[i].height && player.y + player.height >= pipes[i].y) {
                     if (score != 50) {
                         situation.end = true;
-                        if (ouchSound) {
-                            ouch.play();
-                            ouchSound = false;
-                        }
-                        if (dieSound) {
-                            die.play();
-                            dieSound = false;
-                        }
+                        playdiesound = true;
                     }
                 }
             }
@@ -410,14 +398,7 @@ function collision() {
                     player.y <= pipes[i].y) {
                     if (score != 50) {
                         situation.end = true;
-                        if (ouchSound) {
-                            ouch.play();
-                            ouchSound = false;
-                        }
-                        if (dieSound) {
-                            die.play();
-                            dieSound = false;
-                        }
+                        playdiesound = true;
                     }
                 }
             }
@@ -546,6 +527,29 @@ function showscore() {
     }
 }
 
+
+//Auido 
+
+var originScore = 0;
+
+function playAudio() {
+    if (situation.start && pressed && !situation.end)
+        fly.play();
+
+    if (ouchSound && situation.end) {
+        ouch.play();
+        ouchSound = false;
+    }
+    if (dieSound && playdiesound) {
+        die.play();
+        dieSound = false;
+    }
+    if (score != originScore) {
+        point.play();
+        originScore = score;
+    }
+}
+
 //initlization game
 
 function init() {
@@ -574,7 +578,8 @@ function init() {
     passDelay = 0;
     ouchSound = true;
     dieSound = true;
-
+    playdiesound = false;
+    originScore = 0;
     createPipe(0);
 }
 
@@ -583,6 +588,7 @@ animation();
 
 function animation() {
     requestAnimationFrame(animation);
+    playAudio();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawBackground();
@@ -596,16 +602,14 @@ function animation() {
 
 // Detect pressed space or click the mouse
 document.querySelector("body").addEventListener("click", (e) => {
-    if (situation.start)
-        fly.play();
+
     input.x = e.offsetX;
     input.y = e.offsetY;
     pressed = true;
 })
 document.querySelector("body").addEventListener("keydown", () => {
     pressed = true;
-    if (situation.start)
-        fly.play();
+
     if (touch_ground) {
         resetSpace = true;
     }
