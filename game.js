@@ -184,6 +184,7 @@ function move() {
             player.y += player.velocity.y;
         }
         player.draw();
+        playAudio();
         pressed = false;
     }
     else {
@@ -196,6 +197,7 @@ function move() {
             input.y = 0;
             resetmouse = false;
         }
+        playAudio();
         player.draw();
     }
 
@@ -546,7 +548,6 @@ function playAudio() {
         point.play();
         originScore = score;
     }
-    fly.play();
 }
 
 //initlization game
@@ -589,7 +590,6 @@ function animation() {
     requestAnimationFrame(animation);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    playAudio();
     drawBackground();
     drawPipe();
     drawBase();
