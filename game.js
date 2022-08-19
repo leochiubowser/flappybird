@@ -25,6 +25,19 @@ var input = {
 }
 
 
+//Audio
+
+var point = new Audio();
+point.src = "./audio/point.wav";
+
+var ouch = new Audio();
+ouch.src = "./audio/hit.wav";
+
+var fly = new Audio();
+fly.src = "./audio/swoosh.wav";
+
+
+
 
 // Create Player
 
@@ -338,13 +351,17 @@ function drawPipe() {
 
     for (var i = 0; i < pipes.length; i++) {
         if (pipes[i].flipY == false) {
-            ctx.drawImage(pipe_source, pipes[i].x, pipes[i].y)
+            if (pipes[i].x >= -100 && pipes[i].x <= canvas.width + 100) {
+                ctx.drawImage(pipe_source, pipes[i].x, pipes[i].y)
+            }
         }
         else {
-            ctx.save();
-            ctx.scale(1, -1);
-            ctx.drawImage(pipe_source, pipes[i].x, -pipes[i].y);
-            ctx.restore();
+            if (pipes[i].x >= -100 && pipes[i].x <= canvas.width + 100) {
+                ctx.save();
+                ctx.scale(1, -1);
+                ctx.drawImage(pipe_source, pipes[i].x, -pipes[i].y);
+                ctx.restore();
+            }
         }
     }
 }
@@ -355,25 +372,27 @@ function drawPipe() {
 function collision() {
 
     for (i in pipes) {
-        if (!pipes[i].flipY) {
-            if (player.x > pipes[i].x) {
-                if (pipes[i].addPoint == false) {
-                    score++;
-                    pipes[i].addPoint = true;
+        if (pipes[i].x >= -100 && pipes[i].x <= canvas.width + 100) {
+            if (!pipes[i].flipY) {
+                if (player.x > pipes[i].x) {
+                    if (pipes[i].addPoint == false) {
+                        score++;
+                        pipes[i].addPoint = true;
+                    }
+                }
+                if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
+                    player.y <= pipes[i].y + pipes[i].height && player.y + player.height >= pipes[i].y) {
+                    if (score != 50) {
+                        situation.end = true;
+                    }
                 }
             }
-            if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
-                player.y <= pipes[i].y + pipes[i].height && player.y + player.height >= pipes[i].y) {
-                if (score != 50) {
-                    // situation.end = true;
-                }
-            }
-        }
-        else {
-            if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
-                player.y <= pipes[i].y) {
-                if (score != 50) {
-                    // situation.end = true;
+            else {
+                if (player.x + player.width >= pipes[i].x && player.x <= pipes[i].x + pipes[i].width &&
+                    player.y <= pipes[i].y) {
+                    if (score != 50) {
+                        situation.end = true;
+                    }
                 }
             }
         }
@@ -446,7 +465,7 @@ function showscore() {
 
         }
     }
-    else if (situation.end) {
+    else if (situation.end && touch_ground) {
         //end score
         if (score < 10) {
             ctx.drawImage(score_nums[score], canvas.width / 2 - score_nums[score].width / 3, canvas.height / 2 - 30,
