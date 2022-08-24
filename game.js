@@ -15,6 +15,7 @@ var score = 0;
 var ouchSound = true;
 var playdiesound = false;
 var dieSound = true;
+var firstFly = true;
 
 var situation = {
     ready: true,
@@ -534,8 +535,9 @@ var originScore = 0;
 
 function playAudio() {
     if (situation.start && pressed && !situation.end)
-        fly.play();
-
+        if (!firstFly){
+            fly.play();
+        }
     if (ouchSound && situation.end) {
         ouch.play();
         ouchSound = false;
@@ -582,6 +584,7 @@ function init() {
     dieSound = true;
     playdiesound = false;
     originScore = 0;
+    firstFly = true;
     createPipe(0);
 }
 
@@ -606,12 +609,20 @@ document.querySelector("body").addEventListener("click", (e) => {
     input.x = e.offsetX;
     input.y = e.offsetY;
     pressed = true;
+    if (firstFly) {
+        fly.play();
+        firstFly = false;
+    }
 })
 document.querySelector("body").addEventListener("keydown", () => {
     pressed = true;
 
     if (touch_ground) {
         resetSpace = true;
+    }
+    if (firstFly) {
+        fly.play();
+        firstFly = false;
     }
 })
 
