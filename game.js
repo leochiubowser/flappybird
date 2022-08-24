@@ -551,7 +551,7 @@ function playAudio() {
         }
     }
     if (score != originScore) {
-        if (!firstFly){
+        if (!firstFly) {
             point.play();
             originScore = score;
         }
@@ -617,6 +617,13 @@ document.querySelector("body").addEventListener("click", (e) => {
     pressed = true;
     if (firstFly) {
         fly.play();
+        firstFly = false;
+    }
+    if (firstFly) {
+        fly.play();
+        point.play();
+        die.play();
+        ouch.play();
         firstFly = false;
     }
 })
