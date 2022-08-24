@@ -615,10 +615,7 @@ document.querySelector("body").addEventListener("click", (e) => {
     input.x = e.offsetX;
     input.y = e.offsetY;
     pressed = true;
-    if (firstFly) {
-        fly.play();
-        firstFly = false;
-    }
+   
     if (firstFly) {
         fly.play();
         point.play();
