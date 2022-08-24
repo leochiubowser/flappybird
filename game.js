@@ -551,7 +551,7 @@ function playAudio() {
         }
     }
     if (score != originScore) {
-        if (!firstFly) {
+        if (!firstFly){
             point.play();
             originScore = score;
         }
@@ -615,12 +615,8 @@ document.querySelector("body").addEventListener("click", (e) => {
     input.x = e.offsetX;
     input.y = e.offsetY;
     pressed = true;
-   
     if (firstFly) {
         fly.play();
-        point.play();
-        die.play();
-        ouch.play();
         firstFly = false;
     }
 })
@@ -632,10 +628,6 @@ document.querySelector("body").addEventListener("keydown", () => {
     }
     if (firstFly) {
         fly.play();
-        point.play();
-        die.play();
-        ouch.play();
         firstFly = false;
     }
 })
-
