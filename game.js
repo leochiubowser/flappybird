@@ -535,20 +535,26 @@ var originScore = 0;
 
 function playAudio() {
     if (situation.start && pressed && !situation.end)
-        if (!firstFly){
+        if (!firstFly) {
             fly.play();
         }
     if (ouchSound && situation.end) {
-        ouch.play();
-        ouchSound = false;
+        if (!firstFly) {
+            ouch.play();
+            ouchSound = false;
+        }
     }
     if (dieSound && playdiesound) {
-        die.play();
-        dieSound = false;
+        if (!firstFly) {
+            die.play();
+            dieSound = false;
+        }
     }
     if (score != originScore) {
-        point.play();
-        originScore = score;
+        if (!firstFly){
+            point.play();
+            originScore = score;
+        }
     }
 }
 
@@ -584,7 +590,7 @@ function init() {
     dieSound = true;
     playdiesound = false;
     originScore = 0;
-    firstFly = true;
+    // firstFly = true;
     createPipe(0);
 }
 
