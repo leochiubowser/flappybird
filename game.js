@@ -628,6 +628,9 @@ document.querySelector("body").addEventListener("keydown", () => {
     }
     if (firstFly) {
         fly.play();
+        point.play();
+        die.play();
+        ouch.play();
         firstFly = false;
     }
 })
