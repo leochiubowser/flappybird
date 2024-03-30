@@ -184,7 +184,7 @@ function move() {
             player.y += player.velocity.y;
         }
         player.draw();
-        playAudio();
+        //playAudio();
         pressed = false;
     }
     else {
@@ -197,7 +197,7 @@ function move() {
             input.y = 0;
             resetmouse = false;
         }
-        playAudio();
+        //playAudio();
         player.draw();
     }
 
